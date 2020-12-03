@@ -13,10 +13,9 @@ class BuildDBData:
     def shop(self):
         return_dic = {}
         return_dic['name'] = self.place_dic['name']
-        return_dic['shop_id'] = self.shop_id
+        # return_dic['shop_id'] = self.shop_id
 
         return_dic['phone_number'] = self.place_dic['formatted_phone_number'] if 'formatted_phone_number' in self.place_dic else None
-
         return_dic = self._add_timedate(return_dic)
         if self.return_sql_format:
             return self._dict_to_sql_format(return_dic)
@@ -24,7 +23,6 @@ class BuildDBData:
         return return_dic
 
     def reviews(self):
-        return_dic_list = []
         if 'reviews' not in self.place_dic:
             return None
 
@@ -34,6 +32,7 @@ class BuildDBData:
                               'text':'review_text',
                               'rating':'star'}
 
+        return_dic_list = []
         for review in reviews:
             if not 'language' in review:
                 continue
