@@ -1,3 +1,6 @@
+**/__pycache__/**
+
+
 *.rbc
 capybara-*.html
 .rspec

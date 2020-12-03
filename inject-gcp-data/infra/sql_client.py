@@ -26,6 +26,18 @@ class SQLClient:
             cur.executemany(sql, tuple(data_list))
             self.conn.commit()
 
+    def delete_all_data(self,table):
+        sql = f''' DELETE FROM {table}'''
+        cur = self.conn.cursor()
+        cur.execute(sql)
+
+        #re-indexするには下記SQL文も必要.
+        sql = f''' DELETE FROM sqlite_sequence where name='{table}' '''
+        cur = self.conn.cursor()
+        cur.execute(sql)
+
+
+
     @staticmethod
     def create_connection(db_file):
         """ create a database connection to the SQLite database
