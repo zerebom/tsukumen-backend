@@ -4,7 +4,7 @@ def get_logger(name, log_level='DEBUG',
                output_file=None,
                handler_level='INFO',
                output_level='DEBUG',
-               format_str='%(message)s'):
+               format_str='%(asctime)s %(name)-4s %(levelname)-4s %(message)s'):
     """
     :param str name:
     :param str log_level:
