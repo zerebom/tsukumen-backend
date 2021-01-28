@@ -1,4 +1,6 @@
+import os
 import pprint  # list型やdict型を見やすくprintするライブラリ
+from pathlib import Path
 
 import googlemaps
 
@@ -14,37 +16,34 @@ def get_search_center(client):
     return loc
 
 
-def get_api_key(API_PATH='../GCP_API_KEY'):
+def get_api_key(API_PATH='./GCP_API_KEY'):
     with open(API_PATH, 'r') as f:
         return f.read()
 
 
-def insert_data_to_db(shop_id, sql_client, place_details):
+def insert_data_to_db(client, shop_id, sql_client, place_details):
     '''place_details APIを整形してDBに挿入する.'''
     bdt = BuildDBData(place_details['result'], shop_id, return_sql_format=True)
 
     sql_client.insert_single_row('addresses', *bdt.address())
     sql_client.insert_single_row('shops', *bdt.shop())
+    sql_client.insert_many_rows('photos', *bdt.photos(client))
 
     if not bdt.reviews() == None:
         sql_client.insert_many_rows('reviews', *bdt.reviews())
 
 
-def main(DB_PATH='../db/development.sqlite3',is_replace_db=True):
-    format_str = '%(asctime)s %(name)-4s %(levelname)-4s %(message)s'
-    logger = get_logger(__name__, format_str=format_str, handler_level='DEBUG')
-
+def main(DB_PATH='./db/development.sqlite3', is_replace_db=True):
+    logger = get_logger(__name__,  handler_level='DEBUG')
     sql_client = SQLClient(DB_PATH)
     if is_replace_db:
+        sql_client.delete_all_data(tables=['shops', 'addresses', 'reviews'])
         logger.info("delete all tables data.")
-        sql_client.delete_all_data('shops')
-        sql_client.delete_all_data('addresses')
-        sql_client.delete_all_data('reviews')
 
     client = googlemaps.Client(get_api_key())  # インスタンス生成
 
     next_page_token = None
-    shop_id = 0
+    shop_id = 1
     while True:
         logger.info(f'insert start. shop_id: {shop_id}')
 
@@ -62,7 +61,7 @@ def main(DB_PATH='../db/development.sqlite3',is_replace_db=True):
             place_details = client.place(place_id=result['place_id'],
                                          language='ja')
 
-            insert_data_to_db(shop_id, sql_client, place_details)
+            insert_data_to_db(client, shop_id, sql_client, place_details)
             shop_id += 1
 
         if not 'next_page_token' in place_result:
