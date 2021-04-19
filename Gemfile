@@ -6,7 +6,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 group :development, :staging do
-  gem 'rubocop', '~> 0.55.0', require: false
+  gem 'pre-commit'
+  gem 'rubocop'
+  gem 'rubocop-rails'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
