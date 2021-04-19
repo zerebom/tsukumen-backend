@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Shop < ApplicationRecord
-    has_many :reviews, dependent: :destroy
-    has_many :photos, dependent: :destroy
-    has_one :address
+  has_many :reviews, dependent: :destroy
+  has_many :photos, dependent: :destroy
+  has_one :address
 end
