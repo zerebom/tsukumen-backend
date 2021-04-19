@@ -91,7 +91,7 @@ class Reviews(AbsData):
         return cls(**d)
 
     @staticmethod
-    def _add_review_data(dic, adrs):
+    def _ade_review_data(dic, adrs):
         pass
 
 

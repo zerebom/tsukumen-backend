@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Address < ApplicationRecord
-    belongs_to :shop
+  belongs_to :shop
 end
