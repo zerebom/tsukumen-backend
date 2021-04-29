@@ -2,6 +2,30 @@
 
 class Address < ApplicationRecord
   belongs_to :shop
+
+  scope :order_location_by, lambda { |latitude, longitude|
+                              sort_by_near(latitude, longitude)
+                            }
+
+  # privateなクラスメソッドを書く方法(SQLインジェクション対策)
+  # ref: https://jakeyesbeck.com/2016/01/24/ruby-private-class-methods/
+  class << self
+    private
+
+    def sort_by_near(latitude, longitude)
+      select("*, (
+          6371 * acos(
+              cos(radians(#{latitude}))
+              * cos(radians(latitude))
+              * cos(radians(longitude) - radians(#{longitude}))
+              + sin(radians(#{latitude}))
+              * sin(radians(latitude))
+          )
+          ) AS distance").order(:distance)
+    end
+  end
+
+
   def from_result(result)
     address_components = result['address_components']
     name_corespondence = { 'postal_code': 'postalcode',
