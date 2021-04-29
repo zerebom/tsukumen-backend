@@ -10,7 +10,8 @@ RSpec.describe Shop, type: :model do
     url = find_url_maker(place_id: place_id, fields: fields)
     result = get_result(url: url, key: 'result')
 
-    Shop.from_result(result: result,
+    shop = Shop.new
+    shop.from_result(result: result,
                      place_id: place_id)
   end
 
