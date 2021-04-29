@@ -22,6 +22,5 @@ class Address < ApplicationRecord
     self.locality = kwargs[:locality] if kwargs.key?(:locality)
     self.thoroughfare = kwargs[:thoroughfare] if kwargs.key?(:thoroughfare)
     self.sub_thoroughfare = kwargs[:sub_thoroughfare] if kwargs.key?(:sub_thoroughfare)
-    self
   end
 end
