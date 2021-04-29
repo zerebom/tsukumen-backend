@@ -2,7 +2,7 @@
 
 class Address < ApplicationRecord
   belongs_to :shop
-  def from_result(result:)
+  def from_result(result)
     address_components = result['address_components']
     name_corespondence = { 'postal_code': 'postalcode',
                            'administrative_area_level_1': 'prefecture',

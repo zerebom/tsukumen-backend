@@ -13,8 +13,7 @@ RSpec.describe Review, type: :model do
   end
   let(:shop) do
     shop = Shop.new
-    shop.from_result(result: result,
-                     place_id: place_id)
+    shop.from_result(result, place_id)
   end
   it 'indicate that Address can be generated from request.' do
     review = shop.reviews.build
