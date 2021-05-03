@@ -7,7 +7,7 @@ RSpec.describe Review, type: :model do
     results[0]['place_id']
   end
   let(:result) do
-    fields = 'name,rating,address_component,formatted_phone_number,geometry,reviews'
+    fields = 'name,rating,address_component,formatted_phone_number,geometry,reviews,opening_hours/weekday_text'
     url = find_url_maker(place_id: place_id, fields: fields)
     get_result(url: url, key: 'result')
   end
@@ -18,7 +18,6 @@ RSpec.describe Review, type: :model do
   it 'indicate that Address can be generated from request.' do
     review = shop.reviews.build
     review.from_result(result['reviews'][0])
-    puts review.inspect
     expect(review.valid?).to eq true
   end
 end

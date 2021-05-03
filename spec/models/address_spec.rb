@@ -7,7 +7,7 @@ RSpec.describe Address, type: :model do
     results[0]['place_id']
   end
   let(:result) do
-    fields = 'name,rating,address_component,formatted_phone_number,geometry'
+    fields = 'name,rating,address_component,formatted_phone_number,geometry,opening_hours/weekday_text'
     url = find_url_maker(place_id: place_id, fields: fields)
     get_result(url: url, key: 'result')
   end
@@ -17,11 +17,9 @@ RSpec.describe Address, type: :model do
                      place_id)
   end
   it 'indicate that Address can be generated from request.' do
-    puts shop.id
     address = shop.build_address
     address.from_result(result)
 
-    puts address.inspect
     expect(address.valid?).to eq true
   end
 end
