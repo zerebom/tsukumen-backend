@@ -11,8 +11,7 @@ RSpec.describe Shop, type: :model do
     result = get_result(url: url, key: 'result')
 
     shop = Shop.new
-    shop.from_result(result: result,
-                     place_id: place_id)
+    shop.from_result(result, place_id)
   end
 
   subject { shop.valid? }

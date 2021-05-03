@@ -7,7 +7,7 @@ class Shop < ApplicationRecord
 
   validates :place_id, presence: true
 
-  def from_result(result:, place_id:)
+  def from_result(result, place_id)
     self.name = result['name']
     self.phone_number = result['formatted_phone_number']
     self.email = result['email']
