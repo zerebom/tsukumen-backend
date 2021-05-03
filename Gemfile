@@ -9,6 +9,7 @@ group :development, :staging do
   gem 'pre-commit'
   gem 'rubocop'
   gem 'rubocop-rails'
+  gem 'rspec-rails'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
