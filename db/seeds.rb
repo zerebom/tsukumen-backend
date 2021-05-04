@@ -10,31 +10,62 @@
 
 Dir.glob(File.join(File.dirname(__FILE__), '../app/services/**/*.rb')).each { |f| require f }
 
-# サンプルとなるデータを格納する関数
-def seed_maker
-  url = nearbysearch_url_maker(keyword: 'meat')
-  neigbor_results = get_result(url: url, key: 'results')
+class SeedMaker
+  def initialize(keyword: 'meat')
+    @nearby_url = nearbysearch_url_maker(keyword: keyword)
+    @neigbor_results = request_result(url: @nearby_url, key: 'results')
+  end
 
-  neigbor_results.each do |neigbor_result|
-    place_id = neigbor_result['place_id']
-    fields = 'name,rating,address_component,formatted_phone_number,geometry,reviews'
-    url = find_url_maker(place_id: place_id, fields: fields)
-    detail_result = get_result(url: url, key: 'result')
+  def get_detail_result(neigbor_result)
+    @pid = neigbor_result['place_id']
+    fields = 'name,rating,address_component,formatted_phone_number,geometry,reviews,photo,opening_hours/weekday_text'
+    url = find_url_maker(place_id: @pid, fields: fields)
+    request_result(url: url, key: 'result')
+  end
 
+  def run
+    @neigbor_results.each_with_index do |neigbor_result, idx|
+      puts idx
+      detail_result = self.get_detail_result(neigbor_result)
+      shop = self.shop(detail_result)
+      self.address(shop, detail_result)
+      self.review(shop, detail_result)
+      self.photo(shop, detail_result)
+    end
+  end
+
+  def shop(detail_result)
     shop = Shop.create
-    shop = shop.from_result(detail_result, place_id)
+    shop = shop.from_result(detail_result, @pid)
     shop.save
+    shop
+  end
 
+  def address(shop, detail_result)
     address = shop.create_address
     address = address.from_result(detail_result)
     address.save
+    address
+  end
 
+  def review(shop, detail_result)
     detail_result['reviews'].each do |review_data|
       review = shop.reviews.create
       review = review.from_result(review_data)
       review.save
     end
   end
+
+  def photo(shop, detail_result)
+    detail_result['photos'].each_with_index do |photo_data, idx|
+      photo = shop.photos.create
+      photo_ref = photo_data['photo_reference']
+      photo = photo.photo_ref_to_save(photo_ref, shop.place_id, idx)
+      photo.save
+      break if idx == 2
+    end
+  end
 end
 
-seed_maker
+seed_maker = SeedMaker.new
+seed_maker.run
