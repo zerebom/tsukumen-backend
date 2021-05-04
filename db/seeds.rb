@@ -49,7 +49,9 @@ class SeedMaker
   end
 
   def lat_lon
-    lat_lon = LatLon.new(latitude: @latitude, longitude: @longitude)
+    round_lat = @latitude.to_f.round(3)
+    round_lon = @longitude.to_f.round(3)
+    lat_lon = LatLon.new(latitude: round_lat, longitude: round_lon)
     lat_lon.save
     lat_lon
   end
