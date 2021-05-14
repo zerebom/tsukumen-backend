@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_29_233823) do
+ActiveRecord::Schema.define(version: 2021_05_04_013003) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "shop_id"
@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 2021_04_29_233823) do
     t.string "locality"
     t.string "thoroughfare"
     t.string "sub_thoroughfare"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lat_lons", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -50,6 +57,7 @@ ActiveRecord::Schema.define(version: 2021_04_29_233823) do
     t.datetime "updated_at", null: false
     t.string "place_id"
     t.string "opening_hours"
+    t.integer "lat_lon_id"
   end
 
 end
