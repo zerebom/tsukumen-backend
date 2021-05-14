@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Shop < ApplicationRecord
+  belongs_to :lat_lon
   has_many :reviews, dependent: :destroy
   has_many :photos, dependent: :destroy
   has_one :address
