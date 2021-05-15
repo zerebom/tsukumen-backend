@@ -8,11 +8,12 @@ API_KEY = File.open('./GCP_API_KEY').read
 
 def nearbysearch_url_maker(lat: -33.8670522,
                            lon: 151.1957362,
-                           radius: 15_000,
+                           radius: 3000,
                            type: 'restaurant',
                            keyword: 'meat')
 
   default_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+  puts default_url
   url = "#{default_url}location=#{lat},#{lon}&radius=#{radius}&type=#{type}&keyword=#{keyword}&key=#{API_KEY}&language=ja"
   URI.encode(url)
 end

@@ -16,7 +16,9 @@ class SeedMaker
                  limit: 5,
                  latitude: 35.61,
                  longitude: 139.65)
-    @nearby_url = nearbysearch_url_maker(keyword: keyword)
+    @nearby_url = nearbysearch_url_maker(keyword: keyword,
+                                         lat: latitude,
+                                         lon: longitude)
     @neigbor_results = request_result(url: @nearby_url, key: 'results')
     @limit = limit
     @save_photo = save_photo
