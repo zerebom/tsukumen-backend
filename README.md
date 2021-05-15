@@ -1,7 +1,7 @@
 Chikamen-Backend-API
 ====
 
-Overview
+
 Chikamen-Backend-APIはiOSアプリケーション”ちかめん”の情報を取得するAPIです。
 
 ## Description
