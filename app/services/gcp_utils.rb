@@ -13,7 +13,7 @@ def nearbysearch_url_maker(lat: -33.8670522,
                            keyword: 'meat')
 
   default_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-  url = "#{default_url}location=#{loc},#{lat}&radius=#{radius}&type=#{type}&keyword=#{keyword}&key=#{API_KEY}&language=ja"
+  url = "#{default_url}location=#{lat},#{lon}&radius=#{radius}&type=#{type}&keyword=#{keyword}&key=#{API_KEY}&language=ja"
   URI.encode(url)
 end
 

@@ -16,8 +16,9 @@ default: &default
   charset: utf8mb4
   collation: utf8mb4_unicode_ci
   username: root
-  password:
-  socket: /tmp/mysql.sock
+  password: Exprove43!
+  #socket: /tmp/mysql.sock
+  socket: /var/lib/mysql/mysql.sock
 
 development:
   <<: *default
@@ -29,6 +30,7 @@ development:
 test:
   <<: *default
   database: tsukumen_backend_test
+  socket: /var/lib/mysql/mysql.sock
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -52,5 +54,4 @@ test:
 production:
   <<: *default
   database: tsukumen_backend_production
-  username: tsukumen_backend
-  password: <%= ENV['tsukumen_backend_DATABASE_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock

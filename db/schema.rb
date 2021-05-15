@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_151050) do
+ActiveRecord::Schema.define(version: 2021_05_04_150718) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "shop_id"
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 2021_05_04_151050) do
     t.datetime "updated_at", null: false
     t.string "place_id"
     t.integer "lat_lon_id"
-    t.text "opening_hours"
   end
 
 end
