@@ -19,6 +19,8 @@ class BuildDBData:
         return_dic['place_id'] = self.place_dic['place_id']
 
         return_dic['phone_number'] = self.place_dic['formatted_phone_number'] if 'formatted_phone_number' in self.place_dic else None
+        return_dic['opening_hours'] = ','.join(
+            self.place_dic['opening_hours']['weekday_text']) if 'opening_hours' in self.place_dic else None
         return_dic = self._add_timedate(return_dic)
 
         if self.return_sql_format:

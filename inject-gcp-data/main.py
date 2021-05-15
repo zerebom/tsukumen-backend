@@ -48,7 +48,7 @@ def main(DB_PATH='./db/development.sqlite3', is_replace_db=True):
         logger.info(f'insert start. shop_id: {shop_id}')
 
         place_result = client.places_nearby(location=get_search_center(client),
-                                            radius=200000,
+                                            radius=5000,
                                             type='food',
                                             language='ja',
                                             keyword='らーめん',
