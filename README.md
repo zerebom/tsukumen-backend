@@ -1,8 +1,9 @@
 Chikamen-Backend-API
 ====
 
-Overview
+
 Chikamen-Backend-APIはiOSアプリケーション”ちかめん”の情報を取得するAPIです。
+blog: https://zerebom.hatenablog.com/entry/2021/06/03/083433 
 
 ## Description
 Google Place APIを利用して、近隣のラーメンのデータを取得します。
@@ -133,6 +134,5 @@ end
 Chikamen-backend-APIは現在開発中です。下記のようなバグが確認されています。
 
 - 画像が取得できない
-- 同じ地域のデータしか取得できない
 
 
