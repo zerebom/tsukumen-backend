@@ -170,7 +170,7 @@ GEM
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
     unicode-display_width (2.0.0)
-    unicorn (5.4.1)
+    unicorn (6.0.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
     websocket-driver (0.7.3)
@@ -186,7 +186,7 @@ DEPENDENCIES
   listen (~> 3.2)
   pre-commit
   puma (~> 4.1)
-  rails (~> 5.2.1)
+  rails (~> 5)
   rspec-rails
   rubocop
   rubocop-rails
@@ -194,10 +194,10 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sqlite3 (~> 1.4)
   tzinfo-data
-  unicorn (= 5.4.1)
+  unicorn (~> 6.0)
 
 RUBY VERSION
-   ruby 2.6.3p62
+   ruby 3.0.1p64
 
 BUNDLED WITH
-   1.17.2
+   2.2.17

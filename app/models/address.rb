@@ -8,8 +8,7 @@ class Address < ApplicationRecord
                             }
 
   # privateなクラスメソッドを書く方法(SQLインジェクション対策)
-  # ref: https://jakeyesbeck.com/2016/01/24/ruby-private-class-methods/
-  class << self
+  # ref: https://jakeyesbeck.com/2016/01/24/ruby-private-class-methods/ class << self
     private
 
     def sort_by_near(latitude, longitude)

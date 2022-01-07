@@ -1,54 +1,50 @@
 # %%
-from dataclasses import field
-from typing import List
+import math
+import os
+import pprint  # list型やdict型を見やすくprintするライブラリ
+import subprocess
+import sys
+from dataclasses import dataclass, field
 from datetime import datetime
-from dataclasses import dataclass
+from io import BytesIO
+from typing import List
+
+import googlemaps
+import pandas as pd
+from PIL import Image, ImageOps
+
 from utils import cal_distance
 
-import math
-import pandas as pd
-import subprocess
-import pprint  # list型やdict型を見やすくprintするライブラリ
-import googlemaps
-import os
-from PIL import Image, ImageOps
-from io import BytesIO
-import sys
-
 # %%
-with open('../GCP_API_KEY', 'r') as f:
+with open("../GCP_API_KEY", "r") as f:
     API_KEY = f.read()
 
 # %%
 
 client = googlemaps.Client(API_KEY)  # インスタンス生成
-geocode_result = client.geocode('つくば市')  # 位置情報を検索
-loc = geocode_result[0]['geometry']['location']  # 軽度・緯度の情報のみ取り出す
+geocode_result = client.geocode("つくば市")  # 位置情報を検索
+loc = geocode_result[0]["geometry"]["location"]  # 軽度・緯度の情報のみ取り出す
 
 # %%
 
 place_result = client.places_nearby(
-    location=loc,
-    radius=5000,
-    type='food',
-    language='ja',
-    keyword='ラーメン')
+    location=loc, radius=5000, type="food", language="ja", keyword="ラーメン"
+)
 
 # %%
-next_page_token = place_result['next_page_token']
-results = place_result['results']
+next_page_token = place_result["next_page_token"]
+results = place_result["results"]
 
 
 # %%
-pprint.pprint(results[2]['place_id'])
+pprint.pprint(results[2]["place_id"])
 
 
 # %%
-place_id = results[2]['place_id']
+place_id = results[2]["place_id"]
 
 # %%
-place_detail = client.place(place_id=place_id,
-                            language='ja')
+place_detail = client.place(place_id=place_id, language="ja")
 
 
 # %%
@@ -56,7 +52,7 @@ pprint.pprint(place_detail)
 
 # %%
 
-'/'.join(place_detail['result']['opening_hours']['weekday_text'])
+"/".join(place_detail["result"]["opening_hours"]["weekday_text"])
 
 
 # %%
@@ -86,8 +82,8 @@ class Reviews(AbsData):
     @classmethod
     def from_result(cls, result):
         d = {}
-        d['id'] = result['place_id']
-        d = cls._add_address_data(d, result['address_components'])
+        d["id"] = result["place_id"]
+        d = cls._add_address_data(d, result["address_components"])
         return cls(**d)
 
     @staticmethod
@@ -108,22 +104,24 @@ class Address(AbsData):
     @classmethod
     def from_result(cls, result):
         d = {}
-        d['id'] = result['place_id']
-        d = cls._add_address_data(d, result['address_components'])
+        d["id"] = result["place_id"]
+        d = cls._add_address_data(d, result["address_components"])
         return cls(**d)
 
     @staticmethod
     def _add_address_data(dic, adrs):
-        name_corespondence = {'postal_code': 'postalcode',
-                              'administrative_area_level_1': 'prefecture',
-                              'locality': 'locality',
-                              'sublocality': 'thoroughfare',
-                              'premise': "sub_thoroughfare"}
+        name_corespondence = {
+            "postal_code": "postalcode",
+            "administrative_area_level_1": "prefecture",
+            "locality": "locality",
+            "sublocality": "thoroughfare",
+            "premise": "sub_thoroughfare",
+        }
 
         for val in adrs:
             for gcp_name, db_name in name_corespondence.items():
-                if gcp_name in val['types']:
-                    dic[db_name] = val['short_name']
+                if gcp_name in val["types"]:
+                    dic[db_name] = val["short_name"]
 
         return dic
 
@@ -138,18 +136,18 @@ class Place(AbsData):
     @classmethod
     def from_result(cls, result):
         d = {}
-        for key in ['name']:
+        for key in ["name"]:
             d[key] = result[key]
 
-        d['id'] = result['place_id']
-        d['phone_number'] = result['formatted_phone_number']
-        d['weekday_text'] = '/'.join(result['opening_hours']['weekday_text'])
+        d["id"] = result["place_id"]
+        d["phone_number"] = result["formatted_phone_number"]
+        d["weekday_text"] = "/".join(result["opening_hours"]["weekday_text"])
 
         return cls(**d)
 
 
-p = Place.from_result(place_detail['result'])
-a = Address.from_result(place_detail['result'])
+p = Place.from_result(place_detail["result"])
+a = Address.from_result(place_detail["result"])
 
 pprint.pprint(p)
 pprint.pprint(a)
